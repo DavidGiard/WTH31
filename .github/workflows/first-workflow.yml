@@ -2,9 +2,8 @@ name: first-workflow
 
 on:
   workflow_dispatch:
-
   issues:
-    types [opened]
+    types: [opened]
 
 jobs:
   job1:
