@@ -1,8 +1,10 @@
 name: first-workflow
 
-# Controls when the workflow will run
 on:
   workflow_dispatch:
+
+  issues:
+    types [opened]
 
 jobs:
   job1:
