@@ -82,4 +82,44 @@ jobs:
             app-name: 'l3rzfzbcorj34-dev'
             images: ${{secrets.ACR_NAME}}/wth/razorcore:${{github.run_number}}
   
+  deploy-to-test:
+
+      runs-on: ubuntu-latest
+      needs: dockerBuildPush
+
+      environment:
+        name: test
+        url: https://l3rzfzbcorj34-test.azurewebsites.net/
+
+      steps:
+        - name: 'Login via Azure CLI'
+          uses: azure/login@v1
+          with:
+            creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+  
+        - uses: azure/webapps-deploy@v2
+          with:
+            app-name: 'l3rzfzbcorj34-test'
+            images: ${{secrets.ACR_NAME}}/wth/razorcore:${{github.run_number}}
+  
+  deploy-to-prod:
+
+      runs-on: ubuntu-latest
+      needs: dockerBuildPush
+
+      environment:
+        name: prod
+        url: https://l3rzfzbcorj34-prod.azurewebsites.net/
+
+      steps:
+        - name: 'Login via Azure CLI'
+          uses: azure/login@v1
+          with:
+            creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+  
+        - uses: azure/webapps-deploy@v2
+          with:
+            app-name: 'l3rzfzbcorj34-prod'
+            images: ${{secrets.ACR_NAME}}/wth/razorcore:${{github.run_number}}
+  
       
